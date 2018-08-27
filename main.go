@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gedorinku/postgres-protobuf-sample/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 )
@@ -11,7 +12,15 @@ func main() {
 		panic(err)
 	}
 
-	connectDB(c.DataBaseURL)
+	db := connectDB(c.DataBaseURL)
+	err = initDB(db)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := sample(db); err != nil {
+		panic(err)
+	}
 }
 
 func connectDB(url string) *gorm.DB {
@@ -24,6 +33,6 @@ func connectDB(url string) *gorm.DB {
 	return db
 }
 
-func initDB(db *gorm.DB) {
-
+func initDB(db *gorm.DB) error {
+	return db.AutoMigrate(models.Book{}).Error
 }

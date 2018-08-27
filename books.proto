@@ -3,9 +3,9 @@ syntax = "proto3";
 package main;
 
 message Book {
-    uint32 book_id = 1;
     string title = 2;
     repeated Author authors = 3;
+    int32 page_count = 4;
 }
 
 message Author {
